@@ -3,20 +3,23 @@ define([
   'underscore',
   'backbone',
   'handlebars',
+  'collections/projects',
+  'models/project',
   // Using the Require.js text! plugin, we are loaded raw text
   // which will be used as our views primary template
   'text!../../../templates/project/list.html'
-], function($, _, Backbone, Handlebars, projectListTemplate){
+], function($, _, Backbone, Handlebars, ProjectsCollection, ProjectModel, projectListTemplate){
   var ProjectListView = Backbone.View.extend({
     el: $('#container'),
     template: Handlebars.compile(projectListTemplate),
     render: function() {
-      // Using Underscore we can compile our template with data
-      var data = { name: 'Haj' };
-      //var compiledTemplate = _.template( projectListTemplate, data );
-      //var compiledTemplate = self.template({'myData': data});
-      // Append our compiled template to this Views "el"
-      this.$el.append(this.template(data));
+      var book = new ProjectModel();
+      book.set('title', 'Man');
+      this.collection = new ProjectsCollection();
+      this.collection.add({title: 'Hemsöborna', author: 'August Strindberg'});
+      this.collection.add(book);
+
+      this.$el.append(this.template({ projects: this.collection.toJSON() }));
       return this;
     }
   });
