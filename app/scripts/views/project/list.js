@@ -15,9 +15,13 @@ define([
     render: function() {
       var book = new ProjectModel();
       book.set('title', 'Man');
+      book.set('author', 'Selma');
+      var book2 = new ProjectModel({title: 'The road', author: 'Ara Bara'});
+
       this.collection = new ProjectsCollection();
       this.collection.add({title: 'Hemsöborna', author: 'August Strindberg'});
       this.collection.add(book);
+      this.collection.add(book2);
 
       this.$el.append(this.template({ projects: this.collection.toJSON() }));
       return this;
